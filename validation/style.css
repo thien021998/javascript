@@ -70,7 +70,7 @@ hr {
   visibility: hidden;
   opacity: 0;
 }
-.test {
+.dialog {
   visibility: visible;
   opacity: 1;
 }

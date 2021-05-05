@@ -1,13 +1,13 @@
-var userDisabled;
-var passDisabled;
-var emailDisabled;
-var repeatDisabled;
-var text = /[a-z]/;
-var Upcase = /[A-Z]/;
-var num = /[0-9]/;
-var test = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+let userDisabled;
+let passDisabled;
+let emailDisabled;
+let repeatDisabled;
+var text = /[a-z]/g;
+var upCase = /[A-Z]/g;
+var num = /[0-9]/g;
+var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 var form = document.frm;
-var checkDisabled = document.querySelector('button')
 var checkInputUesr = document.querySelector('#user')
 var checkInputEmail = document.querySelector('#email')
 var checkInputPass = document.querySelector('#psw')
@@ -17,9 +17,10 @@ var popup = document.querySelector('.overlay')
 var closePopup = document.querySelector('.close')
 buttonMouse.classList.add('mouse')
 
+
 function validateUser(){
   let user = form.user
-  if(user.value.match(test) || user.value == ""){
+  if(user.value.match(special) || user.value == ""){
     document.querySelector('#erro-special').style.display = 'block'
     user.focus();
     user.select();
@@ -33,37 +34,32 @@ function validateUser(){
 
 function validatePass(){
   let pass = form.psw
-  let length = pass.value.length
-  if(!pass.value.match(text) || !pass.value.match(Upcase) || !pass.value.match(num) || length < 8 || length > 32){
-    if (!pass.value.match(text) || !pass.value.match(Upcase) || !pass.value.match(num)){
-      document.querySelector('#erro-charter-format').style.display = 'block'
-    }
-    if (length < 8 || length > 33){
-      document.querySelector('#erro-chacter-pass').style.display = 'block'
-    }
-    if(pass.value.match(text) && pass.value.match(Upcase) && pass.value.match(num)){
-      document.querySelector('#erro-charter-format').style.display = 'none'
-    }
-    if(length >= 8 && length < 33){
-      document.querySelector('#erro-chacter-pass').style.display = 'none'
-    }
+  if(!pass.value.match(text) || !pass.value.match(upCase) || !pass.value.match(num)){
+    document.querySelector('#erro-charter-format').style.display = 'block'
     passDisabled = false
     pass.focus();
     pass.select();
     return false;
+  } else {
+    document.querySelector('#erro-charter-format').style.display = 'none'
+    let length = pass.value.match(text).length + pass.value.match(upCase).length + pass.value.match(num).length
+    if(length < 8 || length >32){
+      document.querySelector('#erro-chacter-pass').style.display = 'block'
+      passDisabled = false
+      pass.focus();
+      pass.select();
+      return false;
+    } else {
+      document.querySelector('#erro-chacter-pass').style.display = 'none'
+      passDisabled = true
+      return true
+    }
   }
-  document.querySelector('#erro-chacter-pass').style.display = 'none'
-  document.querySelector('#erro-charter-format').style.display = 'none'
-  passDisabled = true
-  return true
 }
 
 function validateEmail() {
-  let email = form.email
-  var atposition = email.value.indexOf("@gmail");
-  var dotposition = email.value.lastIndexOf(".");
-  if (atposition < 1 || dotposition < (atposition + 2)
-          || (dotposition + 2) >= email.value.length) {
+  let email = form.email.value
+  if (!re.test(email)) {
       document.querySelector('#erro-email').style.display = "block"
       emailDisabled = false
       return false;
@@ -89,16 +85,16 @@ function check() {
 
 function closeDisabled(){
   if (userDisabled == true && passDisabled == true && emailDisabled == true && repeatDisabled == true){
-    checkDisabled.disabled = false;
+    buttonMouse.disabled = false;
     buttonMouse.classList.remove('mouse')
   } else if(userDisabled == false || passDisabled == false || emailDisabled == false || repeatDisabled == false){
-    checkDisabled.disabled = true;
+    buttonMouse.disabled = true;
     buttonMouse.classList.add('mouse')
   }
 }
 
-checkDisabled.onclick = function(){
-  popup.classList.toggle('test')
+buttonMouse.onclick = function(){
+  popup.classList.toggle('dialog')
 }
 checkInputUesr.onchange = function(){
   validateUser()
@@ -118,5 +114,5 @@ checkInputRepeat.onkeyup = function(){
   closeDisabled()
 }
 closePopup.onclick = function(){
-  popup.classList.toggle('test')
+  popup.classList.toggle('dialog')
 }
