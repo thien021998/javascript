@@ -9,10 +9,10 @@ body {
 .container {
   padding: 16px;
   background-color: white;
-  height:100%;
-  width:550px;
-  margin:auto;
-  border:1px solid black
+  height: 100%;
+  width: 550px;
+  margin: auto;
+  border: 1px solid black
 }
 
 #user,
@@ -51,7 +51,7 @@ hr {
 #erro-email,
 #erro-chacter-pass,
 #erro-charter-format,
-#erro-repeat{
+#erro-repeat {
   display: none;
   font-size: 14px;
   color: red;
@@ -68,6 +68,7 @@ hr {
   visibility: hidden;
   opacity: 0;
 }
+
 .dialog {
   visibility: visible;
   opacity: 1;
@@ -88,6 +89,7 @@ hr {
   color: #333;
   font-family: Tahoma, Arial, sans-serif;
 }
+
 .popup .close {
   position: absolute;
   top: 20px;
@@ -98,9 +100,11 @@ hr {
   text-decoration: none;
   color: #333;
 }
+
 .popup .close:hover {
   color: #06D85F;
 }
+
 .popup .content {
   max-height: 30%;
   overflow: auto;

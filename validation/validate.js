@@ -2,18 +2,18 @@ let userDisabled;
 let passDisabled;
 let emailDisabled;
 let repeatDisabled;
-const text = /[a-z]+/g;
-const upCase = /[A-Z]+/g;
-const num = /[0-9]+/g;
+const text = /[a-z]+/g;     // tương tự text = /[a-z]{1,}/g;
+const upCase = /[A-Z]+/g;   // tương tự upCase = /[A-Z]{1,}/g;
+const num = /[0-9]+/g;      // tương tự num = /[0-9]{1,}/g;
 const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
 const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-var checkInputUesr = document.querySelector('#user')
-var checkInputEmail = document.querySelector('#email')
-var checkInputPass = document.querySelector('#psw')
-var checkInputRepeat = document.querySelector('#repeat')
-var buttonMouse = document.querySelector('.registerbtn')
-var popup = document.querySelector('.overlay')
-var closePopup = document.querySelector('.close')
+var checkInputUesr = document.querySelector('#user');
+var checkInputEmail = document.querySelector('#email');
+var checkInputPass = document.querySelector('#psw');
+var checkInputRepeat = document.querySelector('#repeat');
+var buttonMouse = document.querySelector('.registerbtn');
+var popup = document.querySelector('.overlay');
+var closePopup = document.querySelector('.close');
 
 function validateUser(){
   if(checkInputUesr.value.match(special) || checkInputUesr.value == ""){
