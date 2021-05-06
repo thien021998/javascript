@@ -2,12 +2,11 @@ let userDisabled;
 let passDisabled;
 let emailDisabled;
 let repeatDisabled;
-var text = /[a-z]/g;
-var upCase = /[A-Z]/g;
-var num = /[0-9]/g;
-var special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+const text = /[a-z]+/g;
+const upCase = /[A-Z]+/g;
+const num = /[0-9]+/g;
+const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
 const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-var form = document.frm;
 var checkInputUesr = document.querySelector('#user')
 var checkInputEmail = document.querySelector('#email')
 var checkInputPass = document.querySelector('#psw')
@@ -15,15 +14,12 @@ var checkInputRepeat = document.querySelector('#repeat')
 var buttonMouse = document.querySelector('.registerbtn')
 var popup = document.querySelector('.overlay')
 var closePopup = document.querySelector('.close')
-buttonMouse.classList.add('mouse')
-
 
 function validateUser(){
-  let user = form.user
-  if(user.value.match(special) || user.value == ""){
+  if(checkInputUesr.value.match(special) || checkInputUesr.value == ""){
     document.querySelector('#erro-special').style.display = 'block'
-    user.focus();
-    user.select();
+    checkInputUesr.focus();
+    checkInputUesr.select();
     userDisabled = false
     return false;
   }
@@ -33,21 +29,21 @@ function validateUser(){
 }
 
 function validatePass(){
-  let pass = form.psw
-  if(!pass.value.match(text) || !pass.value.match(upCase) || !pass.value.match(num)){
+  let length = checkInputPass.value.length
+  if(!checkInputPass.value.match(text) || !checkInputPass.value.match(upCase) || !checkInputPass.value.match(num)){
     document.querySelector('#erro-charter-format').style.display = 'block'
+    document.querySelector('#erro-chacter-pass').style.display = 'none'
     passDisabled = false
-    pass.focus();
-    pass.select();
+    checkInputPass.focus();
+    checkInputPass.select();
     return false;
   } else {
     document.querySelector('#erro-charter-format').style.display = 'none'
-    let length = pass.value.match(text).length + pass.value.match(upCase).length + pass.value.match(num).length
     if(length < 8 || length >32){
       document.querySelector('#erro-chacter-pass').style.display = 'block'
       passDisabled = false
-      pass.focus();
-      pass.select();
+      checkInputPass.focus();
+      checkInputPass.select();
       return false;
     } else {
       document.querySelector('#erro-chacter-pass').style.display = 'none'
@@ -58,8 +54,7 @@ function validatePass(){
 }
 
 function validateEmail() {
-  let email = form.email.value
-  if (!re.test(email)) {
+  if (!re.test(checkInputEmail.value)) {
       document.querySelector('#erro-email').style.display = "block"
       emailDisabled = false
       return false;
@@ -70,9 +65,7 @@ function validateEmail() {
 }
 
 function check() {
-  let first = form.psw;
-  let second = form.repeat
-  if(first.value == second.value){
+  if(checkInputPass.value == checkInputRepeat.value){
     repeatDisabled = true
     document.querySelector('#erro-repeat').style.display = "none"
     return true
@@ -86,10 +79,10 @@ function check() {
 function closeDisabled(){
   if (userDisabled == true && passDisabled == true && emailDisabled == true && repeatDisabled == true){
     buttonMouse.disabled = false;
-    buttonMouse.classList.remove('mouse')
+    [buttonMouse][0].style.cursor = "auto"
   } else if(userDisabled == false || passDisabled == false || emailDisabled == false || repeatDisabled == false){
     buttonMouse.disabled = true;
-    buttonMouse.classList.add('mouse')
+    [buttonMouse][0].style.cursor = "no-drop";
   }
 }
 
