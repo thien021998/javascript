@@ -2,9 +2,7 @@ let userDisabled;
 let passDisabled;
 let emailDisabled;
 let repeatDisabled;
-const text = /[a-z]+/g;     // tương tự text = /[a-z]{1,}/g;
-const upCase = /[A-Z]+/g;   // tương tự upCase = /[A-Z]{1,}/g;
-const num = /[0-9]+/g;      // tương tự num = /[0-9]{1,}/g;
+const pass = /^(?=.*[a-z])(?=.*[A-Z])[\w@$!%*#?&]{8,32}$/g;
 const special = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
 const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 var checkInputUesr = document.querySelector('#user');
@@ -29,28 +27,18 @@ function validateUser(){
 }
 
 function validatePass(){
-  let length = checkInputPass.value.length
-  if(!checkInputPass.value.match(text) || !checkInputPass.value.match(upCase) || !checkInputPass.value.match(num)){
-    document.querySelector('#erro-charter-format').style.display = 'block'
+  if(pass.test(checkInputPass.value)){
     document.querySelector('#erro-chacter-pass').style.display = 'none'
+    document.querySelector('#erro-charter-format').style.display = 'none'
+    passDisabled = true
+    return true
+  }
+  document.querySelector('#erro-charter-format').style.display = 'block'
+  document.querySelector('#erro-chacter-pass').style.display = 'block'
     passDisabled = false
     checkInputPass.focus();
     checkInputPass.select();
     return false;
-  } else {
-    document.querySelector('#erro-charter-format').style.display = 'none'
-    if(length < 8 || length >32){
-      document.querySelector('#erro-chacter-pass').style.display = 'block'
-      passDisabled = false
-      checkInputPass.focus();
-      checkInputPass.select();
-      return false;
-    } else {
-      document.querySelector('#erro-chacter-pass').style.display = 'none'
-      passDisabled = true
-      return true
-    }
-  }
 }
 
 function validateEmail() {
@@ -89,7 +77,7 @@ function closeDisabled(){
 buttonMouse.onclick = function(){
   popup.classList.toggle('dialog')
 }
-checkInputUesr.onchange = function(){
+checkInputUesr.onblur = function(){
   validateUser()
   closeDisabled()
 }
@@ -97,7 +85,7 @@ checkInputEmail.onkeyup = function(){
   validateEmail()
   closeDisabled()
 }
-checkInputPass.onchange = function(){
+checkInputPass.onblur = function(){
   validatePass()
   check()
   closeDisabled()
